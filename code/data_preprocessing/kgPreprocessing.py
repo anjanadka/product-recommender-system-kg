@@ -5,25 +5,21 @@ df_video = pd.read_json('Video_Games.json', lines=True)
 df_meta = pd.read_json('meta_Video_Games.json', lines=True)
 df=df_video[0:5000]
 df_m=df_meta[0:500]
-#print(df)
-du=pd.read_table("uList3.txt",sep='\t')
-#print(du)
+du=pd.read_table("uList.txt",sep='\t')
 du=du[['u.A21ROB4YDOZA5P','5']]
 du=du.to_dict(orient='index')
-#print(du)
-dp=pd.read_table("pList3.txt",sep='\t')  #product index table
+dp=pd.read_table("pList.txt",sep='\t')  #product index table
 #user index table
 print(dp)
 dp=dp[['p.0439381673','6']]
 dp=dp.to_dict(orient='index')
-#print(dp)
 du1={}
 dp1={}
-#dc={}
-# du={}
-# dp={}
+dc={}
+du={}
+dp={}
 rel={'reviews':1 , 'also_buy':2 , 'also_view':3, 'category':4}
-#ctp=pd.read_table("cList.txt") # category index table
+ctp=pd.read_table("cList.txt") # category index table
 ctp={'video games':0}
 print(ctp)
 ctp1={}
@@ -37,16 +33,11 @@ for i in df.index:
   r=df['overall'][i]
   if r>=2.5:
     if ku not in du.keys():
-    # print(k)
       du[ku]=k
-    # print("****")
-    # print(du[ku])
       du1[ku]=k
-    # print(du1[ku])
       k+=1
     if kp not in dp.keys():
       dp[kp]=k
-    #print(dp[kp])
       dp1[kp]=k
     k+=1
     kg.loc[len(kg.index)] = [du[ku], 1, dp[kp]]  #r=1 : relation 1 -->
@@ -64,11 +55,9 @@ for i in df_m.index:
     k+=1
   for j in r:
     if j== '</span></span></span>':
-      break;
+      break
     else:
-        if j not in ctp.keys():
-            
-            
+        if j not in ctp.keys():  
           ctp[j]=k
           ctp1[j]=k
           k+=1
@@ -90,18 +79,16 @@ for i in df_m.index:
       k+=1
     kg.loc[len(kg.index)] = [dp[kp], 3, dp[kav]]  #3--also view
 
-np.savetxt('kgPartial2.txt', kg.values, fmt='%d')
+np.savetxt('kgPartial.txt', kg.values, fmt='%d')
 
-with open("uList3.txt", 'a') as f: 
+with open("uList.txt", 'a') as f: 
     for key, value in du1.items(): 
         f.write('%s\t%s\n' % (value, key))
-with open("pList3.txt", 'a') as f: 
+with open("pList.txt", 'a') as f: 
     for key, value in dp1.items(): 
         f.write('%s\t%s\n' % (value ,key))
-with open("cList3.txt", 'w') as f: 
+with open("cList.txt", 'w') as f: 
     for key, value in ctp.items(): 
         f.write('%s\t%s\n' % (value ,key))
 
-print(k)
-#print(ctp)
-#print(kg)
+
